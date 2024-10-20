@@ -1,0 +1,35 @@
+{
+    "name": "ahmedhassan/auth",
+    "description": "",
+    "authors": [
+        {
+            "name": "Ahemd Hassan",
+            "email": "ahmedhassan@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Auth\\": "app/",
+            "Modules\\Auth\\Database\\Factories\\": "database/factories/",
+            "Modules\\Auth\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Auth\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "laravel/prompts": "^0.3.1"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
