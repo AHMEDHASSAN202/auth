@@ -3,7 +3,9 @@
 namespace Modules\Auth\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\View\Composers\SidebarLinksComposer;
 use Nwidart\Modules\Traits\PathNamespace;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerComposers();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
     }
 
@@ -114,5 +117,10 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         return $paths;
+    }
+
+    private function registerComposers()
+    {
+        \view()->composer("core::components.layouts.sidebar", SidebarLinksComposer::class);
     }
 }
