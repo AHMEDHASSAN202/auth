@@ -31,10 +31,6 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        // Prompt the user for their name
-        $name = text('What is your name?');
-        $this->info("Hi! $name");
-
         // Prompt for the modules directory
         $directory = text('What is your modules directory?', "modules", "modules");
 
