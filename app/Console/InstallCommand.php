@@ -36,7 +36,7 @@ class InstallCommand extends Command
         $directory = text('What is your modules directory?', "modules", "modules");
 
         // Setup progress display for installation steps
-        $progress = progress(label: 'Install Package...', steps: 3);
+        $progress = progress(label: 'Install Package...', steps: 4);
         $progress->start();
 
         // Perform installation steps
@@ -45,6 +45,8 @@ class InstallCommand extends Command
         $this->updateModuleFile($directory);
         $progress->advance();
         $this->updateComposerFile($directory);
+        $progress->advance();
+        $this->updateGlobalComposerFile($directory);
         $progress->advance();
 
         // Enable the module after installation
@@ -166,5 +168,43 @@ class InstallCommand extends Command
                 unset($providers[$key]); // Remove the provider
             }
         }
+    }
+
+    private function updateGlobalComposerFile($directory)
+    {
+        $composerFilePath = base_path('composer.json');
+
+        // Check if composer.json exists
+        if (!File::exists($composerFilePath)) {
+            $this->fail("composer.json not found");
+            return;
+        }
+
+        // Get the content of composer.json
+        $composerContent = File::get($composerFilePath);
+
+        // Decode the JSON
+        $composerJson = json_decode($composerContent, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->fail("Invalid JSON in composer.json");
+            return;
+        }
+
+        // Modify the content (example: add a package)
+        $jsonFilePath = $directory . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . "composer.json";
+        $composerJson['extra']['merge-plugin']["include"] = $composerJson['extra']['merge-plugin']["include"] ?? [];
+        $composerJson['extra']['merge-plugin']["include"][] = $jsonFilePath;
+
+        // Encode the updated array back to JSON
+        $newComposerContent = json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+        // Write it back to composer.json
+        $updated = File::put($composerFilePath, $newComposerContent);
+        if (!$updated) {
+            $this->fail("Can't update composer.json. Please add this file '".$jsonFilePath."' to extra['merge-plugin']['include'] array");
+        }
+
+        return;
     }
 }
