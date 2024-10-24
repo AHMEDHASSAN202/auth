@@ -15,5 +15,5 @@ use Modules\Auth\Http\Controllers\AuthController;
 */
 
 Route::group([], function () {
-    Route::resource('dashboard/auth', AuthController::class)->names('dashboard.auth');
+    Route::resource('dashboard/auth-module', AuthController::class)->names('dashboard.auth-module');
 });

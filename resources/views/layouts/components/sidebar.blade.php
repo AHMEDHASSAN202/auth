@@ -1,5 +1,3 @@
-
-
 <div data-kt-menu-trigger="click"
      class="menu-item menu-accordion hover"
      id="promoters-dropdown">
@@ -21,12 +19,14 @@
     <div
         class="menu-sub menu-sub-accordion"
         style="" kt-hidden-height="80">
-        <div class="menu-item">
-            <a class="menu-link"
-               href="{{ route('dashboard.auth.index') }}">
-                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                <span class="menu-title"> Users </span>
-            </a>
-        </div>
+        @foreach($links ?? [] as $link)
+            <div class="menu-item">
+                <a class="menu-link"
+                   href="{{ $link["url"] }}">
+                    <span class="menu-bullet">{!! $link["icon"] !!}</span>
+                    <span class="menu-title"> {{ $link["title"] }} </span>
+                </a>
+            </div>
+        @endforeach
     </div>
 </div>

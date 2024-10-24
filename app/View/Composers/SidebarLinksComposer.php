@@ -26,6 +26,6 @@ class SidebarLinksComposer
      */
     public function compose(View $view)
     {
-        $view->getFactory()->startPush("sidebar_links", \view("auth::layouts.components.sidebar")->render());
+        $view->getFactory()->startPush("sidebar_links", \view("auth::layouts.components.sidebar", ["links" => config("auth.sidebar_links")])->render());
     }
 }
